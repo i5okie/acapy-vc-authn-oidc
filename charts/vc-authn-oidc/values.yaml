@@ -118,7 +118,7 @@ auth:
 database:
   existingSecret: ""
 
-## @param podAnnotations Map of annotations to add to the acapy pods
+## @param podAnnotations Map of annotations to add to the ACA-Py pods
 ##
 podAnnotations: {}
 
@@ -273,10 +273,10 @@ nodeSelector: {}
 ##
 tolerations: []
 
-## @section Acapy Configuration
+## @section ACA-Py Configuration
 ##
 acapy:
-  ## @param acapy.enabled Deploy AcaPy agent instance
+  ## @param acapy.enabled Deploy ACA-Py agent instance
   enabled: true
 
   ## @param acapy.existingSecret Name of existing secret, required if `enabled` is `false`; Secret must contain `adminApiKey`, `walletKey`, and `webhookApiKey` keys.
@@ -311,15 +311,15 @@ acapy:
     automountServiceAccountToken: true
     name: ""
 
-  ## @param acapy.replicaCount Number of AcaPy replicas to deploy
+  ## @param acapy.replicaCount Number of ACA-Py replicas to deploy
   ##
   replicaCount: 1
 
-  ## AcaPy Autoscaling configuration
+  ## ACA-Py Autoscaling configuration
   ## ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
-  ## @param acapy.autoscaling.enabled Enable Horizontal POD autoscaling for AcaPy
-  ## @param acapy.autoscaling.minReplicas Minimum number of AcaPy replicas
-  ## @param acapy.autoscaling.maxReplicas Maximum number of AcaPy replicas
+  ## @param acapy.autoscaling.enabled Enable Horizontal POD autoscaling for ACA-Py
+  ## @param acapy.autoscaling.minReplicas Minimum number of ACA-Py replicas
+  ## @param acapy.autoscaling.maxReplicas Maximum number of ACA-Py replicas
   ## @param acapy.autoscaling.targetCPUUtilizationPercentage Target CPU utilization percentage
   ## @param acapy.autoscaling.targetMemoryUtilizationPercentage Target Memory utilization percentage
   ## @param acapy.autoscaling.stabilizationWindowSeconds Stabilization window in seconds
@@ -332,10 +332,10 @@ acapy:
     targetMemoryUtilizationPercentage: ""
     stabilizationWindowSeconds: 300
 
-  ## @section Acapy configuration file
+  ## @section ACA-Py configuration file
   ##
   ## @descriptionStart
-  ## Configuration file is mounted as is into the container. See the AcaPy documentation for details.
+  ## Configuration file is mounted as is into the container. See the ACA-Py documentation for details.
   ## Note: Secure values of the configuration are passed via equivalent environment variables from secrets.
   ## @descriptionEnd
   ##
@@ -396,12 +396,12 @@ acapy:
       is_write: true
       genesis_url: "https://raw.githubusercontent.com/ICCS-ISAC/dtrust-reconu/main/CANdy/test/pool_transactions_genesis"
 
-  ## @section Acapy common configurations
-  ## Acapy resource requests and limits
+  ## @section ACA-Py common configurations
+  ## ACA-Py resource requests and limits
   ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
-  ## @param acapy.resources.limits The cpu and memory limit for the Acapy containers
-  ## @param acapy.resources.requests.memory The requested memory for the Acapy containers
-  ## @param acapy.resources.requests.cpu The requested cpu for the Acapy containers
+  ## @param acapy.resources.limits The cpu and memory limit for the ACA-Py containers
+  ## @param acapy.resources.requests.memory The requested memory for the ACA-Py containers
+  ## @param acapy.resources.requests.cpu The requested cpu for the ACA-Py containers
   ##
   resources:
     limits: {}
@@ -409,19 +409,19 @@ acapy:
       cpu: 250m
       memory: 384Mi
 
-  ## Acapy service configuration
+  ## ACA-Py service configuration
   ##
   service:
-    ## @param acapy.service.ports.http AcaPy service HTTP port
-    ## @param acapy.service.ports.admin AcaPy service admin port
-    ## @param acapy.service.ports.ws AcaPy service websockets port
+    ## @param acapy.service.ports.http ACA-Py service HTTP port
+    ## @param acapy.service.ports.admin ACA-Py service admin port
+    ## @param acapy.service.ports.ws ACA-Py service websockets port
     ##
     ports:
       http: 8021
       admin: 8022
       ws: 8023
 
-  ## @section Acapy NetworkPolicy parameters
+  ## @section ACA-Py NetworkPolicy parameters
 
   ## Add networkpolicies
   ##
@@ -444,17 +444,17 @@ acapy:
   ## @param acapy.adminUrl Agent admin host, required if `enabled` is `false`, otherwise ignored
   adminUrl: ""
 
-  ## AcaPy ingress configuration
+  ## ACA-Py ingress configuration
   ingress:
     agent:
-      ## @param acapy.ingress.agent.enabled Set to true to enable acapy ingress
+      ## @param acapy.ingress.agent.enabled Set to true to enable ACA-Py ingress
       enabled: false
       ## @param acapy.ingress.agent.publicScheme Scheme used to construct the public URL from the ingress host.
       publicScheme: https
       ## @param acapy.ingress.agent.hostname When the ingress is enabled, a host pointing to this will be created
       hostname: vc-authn-oidc-acapy.local
     admin:
-      ## @param acapy.ingress.admin.enabled Set to true to enable acapy admin ingress
+      ## @param acapy.ingress.admin.enabled Set to true to enable ACA-Py admin ingress
       enabled: false
       ## @param acapy.ingress.admin.hostname When the ingress is enabled, a host pointing to this will be created
       hostname: admin.vc-authn-oidc-acapy.local

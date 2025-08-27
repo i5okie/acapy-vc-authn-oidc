@@ -49,7 +49,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
-Selector acapy labels
+Selector ACA-Py labels
 */}}
 {{- define "vc-authn-oidc.acapy.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "vc-authn-oidc.acapy.name" . }}
@@ -213,13 +213,13 @@ Generate token private key
 {{- end -}}
 {{- end -}}
 
-{{/* Define AcaPy base name */}}
+{{/* Define ACA-Py base name */}}
 {{- define "vc-authn-oidc.acapy.name" -}}
 {{- default "acapy" .Values.acapy.nameOverride -}}
 {{- end -}}
 
 {{/*
-Create a default fully qualified acapy name.
+Create a default fully qualified ACA-Py name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
 {{- define "vc-authn-oidc.acapy.fullname" -}}
@@ -227,7 +227,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 
 {{/*
-Return the acapy secret name
+Return the ACA-Py secret name
 */}}
 {{- define "vc-authn-oidc.acapy.secretName" -}}
     {{- if .Values.acapy.existingSecret -}}
@@ -263,7 +263,7 @@ generate admin url (internal)
 {{- end -}}
 
 {{/*
-Generate hosts for acapy admin if not overriden
+Generate hosts for ACA-Py admin if not overriden
 */}}
 {{- define "vc-authn-oidc.acapy.admin.host" -}}
    {{- printf "%s-%s-admin%s" (include "global.fullname" .) (include "vc-authn-oidc.acapy.name" .) .Values.global.ingressSuffix -}}

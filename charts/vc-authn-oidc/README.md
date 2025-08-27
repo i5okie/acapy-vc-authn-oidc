@@ -31,23 +31,23 @@ helm repo add vc-authn-oidc https://openwallet-foundation.github.io/acapy-vc-aut
 helm install my-release vc-authn-oidc/vc-authn-oidc
 ```
 
-The command deploys vc-authn-oidc with AcaPY agent, along with the MongoDB and PostgrSQL prerequisites on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
+The command deploys vc-authn-oidc with ACA-Py agent, along with the MongoDB and PostgrSQL prerequisites on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
 
 > **Tip**: List all releases using `helm list`
 
-## Installing the Chart configured for external AcaPy instance
+## Installing the Chart configured for external ACA-Py instance
 
-If necessary, vc-authn-oidc can be installed without AcaPY agent. This is accomplished by setting `acapy.enabled` to `false` and providing the necessary values to configure vc-authn-oidc to connect to an external AcaPy instance.
+If necessary, vc-authn-oidc can be installed without ACA-Py agent. This is accomplished by setting `acapy.enabled` to `false` and providing the necessary values to configure vc-authn-oidc to connect to an external ACA-Py instance.
 
 | Name                            | Description                                                                                                                               | Value   |
 | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| `acapy.enabled`                 | Set to `false` to not deploy included AcaPy instance                                                                                      | `false` |
-| `acapy.agentUrl`                | Provide URL of the AcaPy agent instance                                                                                                   |         |
-| `acapy.adminUrl`                | Provide URL of the AcaPy agent admin interface                                                                                            |         |
+| `acapy.enabled`                 | Set to `false` to not deploy included ACA-Py instance                                                                                      | `false` |
+| `acapy.agentUrl`                | Provide URL of the ACA-Py agent instance                                                                                                   |         |
+| `acapy.adminUrl`                | Provide URL of the ACA-Py agent admin interface                                                                                            |         |
 | `acapy.argfile.yml.wallet-name` | Provide the name of the wallet (`wallet-id`)                                                                                              |         |
 | `acapy.existingSecret`          | Provide the name of an existing secret containing the values for `adminApiKey` (otherwise set using `acapy.adminApiKey`), and `walletKey` |         |
 
-To obtain the `controllerApiKey` to be used with the external AcaPy instance, run the following command:
+To obtain the `controllerApiKey` to be used with the external ACA-Py instance, run the following command:
 
 ```console
 export WEBHOOK_API_KEY=$(kubectl get secret --namespace my-namespace my-release-api-key -o jsonpath="{.data.controllerApiKey}" | base64 --decode; echo)
@@ -122,7 +122,7 @@ kubectl delete secret,pvc --selector "app.kubernetes.io/instance"=my-release
 | `auth.token.privateKey.filename`                    | Specify the name of the signing key file                                                                                                                                                             | `jwt-token.pem`                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | `auth.token.privateKey.existingSecret`              | Specify the name of the secret containing the signing key to be mounted, if not specified, a new secret will be created.                                                                             | `""`                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | `database.existingSecret`                           | Specify existing secret containing the keys `mongodb-root-password`, `mongodb-replica-set-key`, and `mongodb-passwords`. `database.secret.create` must be set to `false` when using existing secret. | `""`                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| `podAnnotations`                                    | Map of annotations to add to the acapy pods                                                                                                                                                          | `{}`                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `podAnnotations`                                    | Map of annotations to add to the ACA-Py pods                                                                                                                                                         | `{}`                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | `podSecurityContext.enabled`                        | Enable Pod securityContext                                                                                                                                                                           | `false`                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | `podSecurityContext.fsGroupChangePolicy`            | Set filesystem group change policy                                                                                                                                                                   | `Always`                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | `podSecurityContext.sysctls`                        | Set kernel settings using the sysctl interface                                                                                                                                                       | `[]`                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
@@ -166,11 +166,11 @@ kubectl delete secret,pvc --selector "app.kubernetes.io/instance"=my-release
 | `nodeSelector`                                      | Node labels for pods assignment                                                                                                                                                                      | `{}`                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | `tolerations`                                       | Tolerations for pods assignment                                                                                                                                                                      | `[]`                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 
-### Acapy Configuration
+### ACA-Py Configuration
 
 | Name                                                  | Description                                                                                                                          | Value                               |
 | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------- |
-| `acapy.enabled`                                       | Deploy AcaPy agent instance                                                                                                          | `true`                              |
+| `acapy.enabled`                                       | Deploy ACA-Py agent instance                                                                                                         | `true`                              |
 | `acapy.existingSecret`                                | Name of existing secret, required if `enabled` is `false`; Secret must contain `adminApiKey`, `walletKey`, and `webhookApiKey` keys. | `""`                                |
 | `acapy.agentSeed.existingSecret`                      | Name of existing secret with the 'seed' key.                                                                                         | `""`                                |
 | `acapy.image.registry`                                |                                                                                                                                      | `ghcr.io`                           |
@@ -182,17 +182,17 @@ kubectl delete secret,pvc --selector "app.kubernetes.io/instance"=my-release
 | `acapy.serviceAccount.annotations`                    | Annotations for service account. Evaluated as a template. Only used if `create` is `true`.                                           | `{}`                                |
 | `acapy.serviceAccount.automountServiceAccountToken`   | Automount service account token for the server service account                                                                       | `true`                              |
 | `acapy.serviceAccount.name`                           | Name of the service account to use. If not set and create is true, a name is generated using the fullname template.                  | `""`                                |
-| `acapy.replicaCount`                                  | Number of AcaPy replicas to deploy                                                                                                   | `1`                                 |
-| `acapy.autoscaling.enabled`                           | Enable Horizontal POD autoscaling for AcaPy                                                                                          | `true`                              |
-| `acapy.autoscaling.minReplicas`                       | Minimum number of AcaPy replicas                                                                                                     | `1`                                 |
-| `acapy.autoscaling.maxReplicas`                       | Maximum number of AcaPy replicas                                                                                                     | `100`                               |
+| `acapy.replicaCount`                                  | Number of ACA-Py replicas to deploy                                                                                                  | `1`                                 |
+| `acapy.autoscaling.enabled`                           | Enable Horizontal POD autoscaling for ACA-Py                                                                                         | `true`                              |
+| `acapy.autoscaling.minReplicas`                       | Minimum number of ACA-Py replicas                                                                                                    | `1`                                 |
+| `acapy.autoscaling.maxReplicas`                       | Maximum number of ACA-Py replicas                                                                                                    | `100`                               |
 | `acapy.autoscaling.targetCPUUtilizationPercentage`    | Target CPU utilization percentage                                                                                                    | `80`                                |
 | `acapy.autoscaling.targetMemoryUtilizationPercentage` | Target Memory utilization percentage                                                                                                 | `""`                                |
 | `acapy.autoscaling.stabilizationWindowSeconds`        | Stabilization window in seconds                                                                                                      | `300`                               |
 
-### Acapy configuration file
+### ACA-Py configuration file
 
-Configuration file is mounted as is into the container. See the AcaPy documentation for details.
+Configuration file is mounted as is into the container. See the ACA-Py documentation for details.
 Note: Secure values of the configuration are passed via equivalent environment variables from secrets.
 
 | Name                                              | Description                                                                                                                                                                                                                                     | Value              |
@@ -218,18 +218,18 @@ Note: Secure values of the configuration are passed via equivalent environment v
 | `acapy.argfile.yml.wallet-type`                   | Specifies the type of Indy wallet provider to use. Supported internal storage types are 'basic' (memory) and 'indy'. The default (if not specified) is 'basic'.                                                                                 | `askar`            |
 | `acapy.ledgers.yml`                               |                                                                                                                                                                                                                                                 | `{}`               |
 
-### Acapy common configurations
+### ACA-Py common configurations
 
-| Name                              | Description                                       | Value   |
-| --------------------------------- | ------------------------------------------------- | ------- |
-| `acapy.resources.limits`          | The cpu and memory limit for the Acapy containers | `{}`    |
-| `acapy.resources.requests.memory` | The requested memory for the Acapy containers     | `384Mi` |
-| `acapy.resources.requests.cpu`    | The requested cpu for the Acapy containers        | `250m`  |
-| `acapy.service.ports.http`        | AcaPy service HTTP port                           | `8021`  |
-| `acapy.service.ports.admin`       | AcaPy service admin port                          | `8022`  |
-| `acapy.service.ports.ws`          | AcaPy service websockets port                     | `8023`  |
+| Name                              | Description                                        | Value   |
+| --------------------------------- | -------------------------------------------------- | ------- |
+| `acapy.resources.limits`          | The cpu and memory limit for the ACA-Py containers | `{}`    |
+| `acapy.resources.requests.memory` | The requested memory for the ACA-Py containers     | `384Mi` |
+| `acapy.resources.requests.cpu`    | The requested cpu for the ACA-Py containers        | `250m`  |
+| `acapy.service.ports.http`        | ACA-Py service HTTP port                           | `8021`  |
+| `acapy.service.ports.admin`       | ACA-Py service admin port                          | `8022`  |
+| `acapy.service.ports.ws`          | ACA-Py service websockets port                     | `8023`  |
 
-### Acapy NetworkPolicy parameters
+### ACA-Py NetworkPolicy parameters
 
 | Name                                       | Description                                                                                                                                                 | Value                               |
 | ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
@@ -238,10 +238,10 @@ Note: Secure values of the configuration are passed via equivalent environment v
 | `acapy.networkPolicy.ingressNSMatchLabels` | Labels to match to allow traffic from other namespaces. Ignored if `networkPolicy.allowExternal` is true.                                                   | `{}`                                |
 | `acapy.agentUrl`                           | Agent host, required if `enabled` is `false`, otherwise ignored                                                                                             | `""`                                |
 | `acapy.adminUrl`                           | Agent admin host, required if `enabled` is `false`, otherwise ignored                                                                                       | `""`                                |
-| `acapy.ingress.agent.enabled`              | Set to true to enable acapy ingress                                                                                                                         | `false`                             |
+| `acapy.ingress.agent.enabled`              | Set to true to enable ACA-Py ingress                                                                                                                        | `false`                             |
 | `acapy.ingress.agent.publicScheme`         | Scheme used to construct the public URL from the ingress host.                                                                                              | `https`                             |
 | `acapy.ingress.agent.hostname`             | When the ingress is enabled, a host pointing to this will be created                                                                                        | `vc-authn-oidc-acapy.local`         |
-| `acapy.ingress.admin.enabled`              | Set to true to enable acapy admin ingress                                                                                                                   | `false`                             |
+| `acapy.ingress.admin.enabled`              | Set to true to enable ACA-Py admin ingress                                                                                                                  | `false`                             |
 | `acapy.ingress.admin.hostname`             | When the ingress is enabled, a host pointing to this will be created                                                                                        | `admin.vc-authn-oidc-acapy.local`   |
 | `acapy.postgresql.commonLabels`            | apply common labels to postgresql resources                                                                                                                 | `{}`                                |
 | `mongodb.auth.enabled`                     | Enable authentication                                                                                                                                       | `true`                              |
